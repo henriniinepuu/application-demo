@@ -15,7 +15,7 @@ export default function WorkspaceIDLayout({
   return (
     <div className="flex flex-row justify-center h-screen w-screen">
     <div className=" flex flex-col w-[250px] bg-gray-200 h-screen " >
-        <div className="text-center content-center h-10 bg-gray-300 border-2 border-gray-900">Organization switcher</div>
+        <div className="text-center content-center h-10 bg-gray-300 border-2 border-gray-900">Customer switcher</div>
         <div className="text-center content-center h-10 bg-gray-300 border-2 border-gray-900"><Input placeholder="Search" /></div>
         <Separator  />
         <SidebarContent />
@@ -27,4 +27,3 @@ export default function WorkspaceIDLayout({
   </div>
   );
 }
-
