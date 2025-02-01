@@ -5,7 +5,6 @@ export default function ProjectIDLayout({
 }>) {
   return (
     <div>
-        
         {children}
     </div>
     );
