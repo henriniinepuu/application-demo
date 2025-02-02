@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import SidebarContent from "@/components/sidebar/sidebarContent";
 
 import Footer from "@/components/sidebar/footer";
+import { ThemeProvider } from "@/components/theme-provider";
 
 
 export default function WorkspaceIDLayout({
@@ -14,15 +15,23 @@ export default function WorkspaceIDLayout({
 }>) {
   return (
     <div className="flex flex-row justify-center h-screen w-screen">
-    <div className=" flex flex-col w-[250px] bg-gray-200 h-screen " >
-        <div className="text-center content-center h-10 bg-gray-300 border-2 border-gray-900">Customer switcher</div>
-        <div className="text-center content-center h-10 bg-gray-300 border-2 border-gray-900"><Input placeholder="Search" /></div>
+    <div className=" flex flex-col w-[250px] h-screen " >
+        <div className="text-center content-center h-10 ">Customer switcher</div>
+        <div className="text-center content-center h-10 "><Input placeholder="Search" /></div>
         <Separator  />
         <SidebarContent />
         <Footer />
     </div>
     <div className="flex flex-col w-full">
-        <div className=" bg-gray-300 h-screen" >{children}</div>
+        <div className=" h-screen" >
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider></div>
     </div>
   </div>
   );

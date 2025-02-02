@@ -1,16 +1,27 @@
 "use client"
 
 import * as React from "react"
-
+import { useRouter } from "next/navigation"
 import {
   ColumnDef,
   flexRender,
   SortingState,
+  ColumnFiltersState,
   getCoreRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  VisibilityState,
+  getFilteredRowModel,
   useReactTable,
+  Row,
 } from "@tanstack/react-table"
+
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 import {
   Table,
@@ -20,18 +31,27 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Button } from "./button"
+import { Button } from "@/components/ui/button"
+import { Input } from "./input"
+import { Columns } from "lucide-react"
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends { id: string | number }, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  path: string
 }
 
-export function DataTable<TData, TValue>({
+
+export function DataTable<TData extends { id: string | number }, TValue>({
   columns,
   data,
+  path,
 }: DataTableProps<TData, TValue>) {
+  const router = useRouter()
   const [sorting, setSorting] = React.useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+  const [globalFilter, setGlobalFilter] = React.useState<string>("")
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const table = useReactTable({
     data,
     columns,
@@ -39,13 +59,80 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    onGlobalFilterChange: setGlobalFilter,
+    onColumnVisibilityChange: setColumnVisibility,
     state: {
       sorting,
+      columnFilters,
+      globalFilter,
+      columnVisibility,
     },
+    
   })
+  
+
+  const handleRowClick = (e: React.MouseEvent, row: Row<TData>) => {
+    // Check if the click originated from within an action button
+    const isActionButton = (e.target as HTMLElement).closest('[data-action-button]');
+    if (isActionButton) {
+      return; // Don't navigate if clicking an action button
+    }
+
+    // Get the current URL path segments
+    const pathSegments = window.location.pathname.split('/').filter(Boolean);
+    const workspaceId = pathSegments[0];
+    const projectId = pathSegments[1];
+
+    // Construct the full path
+    const fullPath = `/${workspaceId}/${projectId}/${path}/${row.original.id}`;
+    const customerPath = `/${workspaceId}/${row.original.id}`;
+    if (path === "customers") {
+      router.push(customerPath);
+    } else {
+      router.push(fullPath);
+    }
+  };
 
   return (
     <div>
+      <div className="rounded-md border flex justify-between">
+        <Input
+          value={globalFilter}
+          onChange={e => table.setGlobalFilter(String(e.target.value))}
+          placeholder="Search from all columns..."
+        />
+        <DropdownMenu modal={false}>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="ml-auto">
+              <Columns className="w-4 h-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" onCloseAutoFocus={(e) => e.preventDefault()}>
+            {table
+              .getAllColumns()
+              .filter(
+                (column) => column.getCanHide()
+              )
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                    onSelect={(e) => e.preventDefault()}
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                )
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -54,12 +141,27 @@ export function DataTable<TData, TValue>({
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
-                      {header.isPlaceholder
+                      <div>{header.isPlaceholder
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
                             header.getContext()
                           )}
+                      </div>
+                      <div>
+                        {header.column.getCanFilter() && 
+                         
+                         !(header.column.id === "password") && (
+                          <Input
+                            placeholder={`Filter ${header.column.id}`}
+                            value={(table.getColumn(header.column.id)?.getFilterValue() as string) ?? ""}
+                            onChange={(event) =>
+                              table.getColumn(header.column.id)?.setFilterValue(event.target.value)
+                            }
+                            className="max-w-sm"
+                          />
+                        )}
+                      </div>
                     </TableHead>
                   )
                 })}
@@ -72,6 +174,8 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={(e) => handleRowClick(e, row)}
+                  className="cursor-pointer hover:bg-muted/50"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

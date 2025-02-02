@@ -14,7 +14,7 @@ export default async function PasswordPage() {
     <div>
       <div className="text-2xl font-bold pt-5">Passwords</div>
       <div className="container mx-auto pt-5">
-        <DataTable columns={columns} data={data} />
+        <DataTable columns={columns} data={data} path="passwords" />
       </div>
     </div>
   )
