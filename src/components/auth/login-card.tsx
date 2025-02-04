@@ -1,8 +1,7 @@
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { signIn } from "@/auth"
 import { FcGoogle } from "react-icons/fc"
 import { FaGithub } from "react-icons/fa"
 
@@ -10,6 +9,12 @@ export function LoginCard({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+
+  const handleGithubLogin = async () => {
+    "use server"
+    await signIn("github")
+  }
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <form>
@@ -26,27 +31,6 @@ export function LoginCard({
             </div>
           </div>
           <div className="flex flex-col gap-6">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="example@domain.com"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="email">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="********"
-                required
-              />
-            </div>
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
             <div className="text-center text-sm">We don&apos;t allow typical username and password!? <a href="#" className="underline underline-offset-4">Read here why?</a>.</div>
           </div>
           <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
@@ -59,10 +43,12 @@ export function LoginCard({
               <FcGoogle className="size-4" />
               Continue with Google
             </Button>
-            <Button variant="outline" className="w-full">
-              <FaGithub className="size-4" />
-              Continue with Github
-            </Button>
+            <div>
+              <Button variant="outline" className="w-full" onClick={handleGithubLogin}>
+                <FaGithub className="size-4" />
+                Continue with Github
+              </Button>
+            </div>
           </div>
         </div>
       </form>

@@ -8,10 +8,14 @@ import { Separator } from "@/components/ui/separator";
 import { useRouter } from "next/navigation";
 import { CiSettings } from "react-icons/ci";
 import Preferences from "@/components/preferences/preferences";
+import { signOut } from "@/auth";
 
 export default function Footer() {
     const router = useRouter();
-
+    const handleLogout = async () => {
+        await signOut();
+        router.push("/auth");
+    }
     return (
         <div className="flex flex-col mt-auto p-4 gap-2">
             <Separator className="w-full"/>
@@ -42,7 +46,7 @@ export default function Footer() {
                                 </DialogTrigger>
                                 <Preferences />
                             </Dialog>
-                            <div><Button size="sm" variant="destructive" className="w-full text-md" onClick={() => router.push("/auth")}>Logout</Button></div>
+                            <div><Button size="sm" variant="destructive" className="w-full text-md" onClick={handleLogout}>Logout</Button></div>
                         </div>
                         
                     </PopoverContent>

@@ -5,6 +5,7 @@ import { LuKeyRound } from "react-icons/lu";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 
+
 export default function SidebarContent() {
     const pathname = usePathname();
     const router = useRouter();
