@@ -20,8 +20,7 @@ export function LoginCard({
       <form>
         <div className="flex flex-col gap-6">
           <div className="flex flex-col items-center gap-2">
-            <Image src="/logo.svg" alt="DataStorage" width={200} height={100} />
-
+            <Image src="/logo.svg" alt="Logo" width={200} height={100} />
             <h1 className="text-xl font-bold pt-4">Welcome to Logoipsum</h1>
             <div className="text-center text-sm">
               Don&apos;t have an account?{" "}
