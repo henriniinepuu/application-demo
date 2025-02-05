@@ -80,18 +80,19 @@ export function DataTable<TData extends { id: string | number }, TValue>({
       return; // Don't navigate if clicking an action button
     }
 
-    // Get the current URL path segments
-    const pathSegments = window.location.pathname.split('/').filter(Boolean);
-    const workspaceId = pathSegments[0];
-    const projectId = pathSegments[1];
-
-    // Construct the full path
-    const fullPath = `/${workspaceId}/${projectId}/${path}/${row.original.id}`;
-    const customerPath = `/${workspaceId}/${row.original.id}`;
-    if (path === "customers") {
-      router.push(customerPath);
+    if (path === "workspaces") {
+      // For workspaces, navigate directly to /{workspaceId}
+      router.push(`/${row.original.id}`);
+    } else if (path === "customers") {
+      // Get the current workspace ID from the URL
+      const workspaceId = window.location.pathname.split('/')[1];
+      router.push(`/${workspaceId}/${row.original.id}`);
     } else {
-      router.push(fullPath);
+      // Get the current URL path segments for other cases
+      const pathSegments = window.location.pathname.split('/').filter(Boolean);
+      const workspaceId = pathSegments[0];
+      const projectId = pathSegments[1];
+      router.push(`/${workspaceId}/${projectId}/${path}/${row.original.id}`);
     }
   };
 
