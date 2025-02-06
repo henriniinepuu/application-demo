@@ -12,6 +12,7 @@ export function LoginCard({
 
   const handleGithubLogin = async () => {
     "use server"
+    console.log("signing in with github")
     await signIn("github")
   }
 
