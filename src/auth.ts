@@ -10,15 +10,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     signIn: '/auth',
   },
   callbacks: {
-    authorized() {
-      return true
+    authorized: async ({ auth }) => {
+      // Logged in users are authenticated, otherwise redirect to login page
+      return !!auth
     },
-    async session({ session, user }) {
-      if (session?.user) {
-        session.user.id = user.id
-      }
-      return session
-    }
   },
 
   providers: [GitHub],
