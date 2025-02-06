@@ -24,9 +24,15 @@ export async function middleware(request: NextRequest) {
 // Configure which routes to protect
 export const config = {
   matcher: [
-    // Protected routes
-    '/((?!api|_next/static|_next/image|favicon.ico|auth).*)',
-    // Add auth page to handle redirect when user is already logged in
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - logo.svg (your logo file)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico|auth|logo.svg).*)',
     '/auth'
   ]
 }
