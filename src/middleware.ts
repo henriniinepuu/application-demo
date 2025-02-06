@@ -7,13 +7,18 @@ export async function middleware(request: NextRequest) {
   
   // Check if the user is trying to access the auth page while logged in
   if (session && request.nextUrl.pathname === "/auth") {
-    return NextResponse.redirect(new URL("/", request.url))
+    console.log("redirecting to home")
+    return 
+    //NextResponse.redirect(new URL("/", request.url))
   }
 
   // Check if the user is not authenticated and trying to access protected routes
   if (!session && request.nextUrl.pathname !== "/auth") {
-    return NextResponse.redirect(new URL("/auth", request.url))
+    console.log("redirecting to auth")
+    return 
+    //NextResponse.redirect(new URL("/auth", request.url))
   }
+
 
   return NextResponse.next()
 }
