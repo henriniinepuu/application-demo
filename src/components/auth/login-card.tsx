@@ -14,6 +14,7 @@ export function LoginCard({
     "use server"
     console.log("signing in with github")
     await signIn("github")
+    console.log("signed in with github")
   }
 
   return (
