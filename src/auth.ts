@@ -11,15 +11,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   callbacks: {
     authorized() {
+      console.log("authorized")
       return true
     },
     async session({ session, user }) {
       if (session?.user) {
         session.user.id = user.id
       }
+      console.log("session", session)
       return session
     }
   },
+
   providers: [GitHub],
   adapter: NeonAdapter(new Pool({ connectionString: process.env.DATABASE_URL }))
 })
