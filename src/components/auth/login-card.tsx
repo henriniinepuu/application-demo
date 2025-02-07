@@ -12,10 +12,11 @@ export function LoginCard({
 
   const handleGithubLogin = async () => {
     "use server"
-    console.log("signing in with github")
-    await signIn("github")
-    console.log("signed in with github")
+
+    await signIn("github", { redirectTo: "/" })
+
   }
+
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
