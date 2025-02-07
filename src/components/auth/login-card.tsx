@@ -34,10 +34,18 @@ export function LoginCard({
             </span>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <Button variant="outline" className="w-full">
+            <Button 
+              variant="outline" 
+              className="w-full" 
+              onClick={async () => {
+                "use server"
+                await signIn("google")
+              }}
+              >
               <FcGoogle className="size-4" />
               Continue with Google
             </Button>
+
             <div>
               <Button 
               variant="outline" 
