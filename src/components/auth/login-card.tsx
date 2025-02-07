@@ -1,22 +1,15 @@
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { signIn } from "@/auth"
 import { FcGoogle } from "react-icons/fc"
 import { FaGithub } from "react-icons/fa"
+import { signIn } from "@/auth"
 
 export function LoginCard({
   className,
+
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-
-  const handleGithubLogin = async () => {
-    "use server"
-
-    await signIn("github", { redirectTo: "/" })
-
-  }
-
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -46,7 +39,13 @@ export function LoginCard({
               Continue with Google
             </Button>
             <div>
-              <Button variant="outline" className="w-full" onClick={handleGithubLogin}>
+              <Button 
+              variant="outline" 
+              className="w-full" 
+              onClick={async () => {
+                "use server"
+                await signIn("github", { redirectTo: "/" }  )
+              }}>
                 <FaGithub className="size-4" />
                 Continue with Github
               </Button>
