@@ -1,13 +1,13 @@
+"use client"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { FcGoogle } from "react-icons/fc"
 import { FaGithub } from "react-icons/fa"
-import { signIn } from "@/auth"
+import { signIn } from "next-auth/react"
 
 export function LoginCard({
   className,
-
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
 
@@ -37,27 +37,21 @@ export function LoginCard({
             <Button 
               variant="outline" 
               className="w-full" 
-              onClick={async () => {
-                "use server"
-                await signIn("google")
-              }}
-              >
+              onClick={() => signIn('google')}
+            >
               <FcGoogle className="size-4" />
               Continue with Google
+
             </Button>
 
-            <div>
-              <Button 
+            <Button 
               variant="outline" 
               className="w-full" 
-              onClick={async () => {
-                "use server"
-                await signIn("github", { redirectTo: "/" }  )
-              }}>
-                <FaGithub className="size-4" />
-                Continue with Github
-              </Button>
-            </div>
+              onClick={() => signIn('github')}
+            >
+              <FaGithub className="size-4" />
+              Continue with Github
+            </Button>
           </div>
         </div>
       </form>

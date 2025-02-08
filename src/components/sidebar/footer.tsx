@@ -1,5 +1,4 @@
-
-import { redirect } from "next/navigation";
+"use client"
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Dialog,  DialogTrigger } from "@/components/ui/dialog";
@@ -7,14 +6,16 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Separator } from "@/components/ui/separator";
 import { CiSettings } from "react-icons/ci";
 import Preferences from "@/components/preferences/preferences";
-import { signOut } from "@/auth";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 
 export default function Footer() {
+    const router = useRouter();
 
-     const handleSignOut = async () => {
-        "use server"
-        await signOut();
-        redirect("/auth");
+    const handleSignOut = async () => {
+        await signOut({ redirect: false });
+        router.push("/auth");
     }
 
 
