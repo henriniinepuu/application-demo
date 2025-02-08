@@ -1,9 +1,9 @@
 import { signIn } from "next-auth/react"
 
-export async function useGithubLogin() {
-    await signIn('github', { redirectTo: '/' })
+export function githubLogin() {
+    return signIn('github', { redirectTo: '/' })
 }
 
-export async function useGoogleLogin() {
-    await signIn('google', { redirectTo: '/' })
+export function googleLogin() {
+    return signIn('google', { redirectTo: '/' })
 }
