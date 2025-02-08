@@ -1,9 +1,10 @@
-import { withAuth } from "next-auth/middleware"
+import { auth } from "@/auth"
 
-export default withAuth({
-  pages: {
-    signIn: "/auth",
-  },
+export default auth((req) => {
+  if (!req.auth && req.nextUrl.pathname !== "/auth") {
+    const newUrl = new URL("/auth", req.url)
+    return Response.redirect(newUrl)
+  }
 })
 
 export const config = {
