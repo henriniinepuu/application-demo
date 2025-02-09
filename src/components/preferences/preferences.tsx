@@ -21,12 +21,13 @@ export default function Preferences() {
                 <div className="flex flex-col flex-1">
                     <div className="flex flex-row gap-2 flex-1">
                         <div className="flex flex-col gap-2 text-sm">
-                            <div className="bg-gray-300 hover:bg-gray-400 transition p-2 rounded-md items-center hover:cursor-pointer w-full" onClick={() => setPref("profile")}>Profile</div>
-                            <div className="bg-gray-300 hover:bg-gray-400 transition p-2 rounded-md items-center hover:cursor-pointer w-full" onClick={() => setPref("appearance")}>Appearance</div>
-                            <div className="bg-gray-300 hover:bg-gray-400 transition p-2 rounded-md items-center hover:cursor-pointer w-full" onClick={() => setPref("language")}>Language</div>
+                            <div className="bg-primary hover:bg-primary/80 transition p-2 rounded-md items-center hover:cursor-pointer w-full" onClick={() => setPref("profile")}>Profile</div>
+                            <div className="bg-primary hover:bg-primary/80 transition p-2 rounded-md items-center hover:cursor-pointer w-full" onClick={() => setPref("appearance")}>Appearance</div>
+                            <div className="bg-primary hover:bg-primary/80 transition p-2 rounded-md items-center hover:cursor-pointer w-full" onClick={() => setPref("language")}>Language</div>
                         </div>
-                        <div className="bg-gray-100 w-full text-sm p-2">
+                        <div className="w-full text-sm p-2">
                             {pref === "profile" && <PrefProfile />}
+
                             {pref === "appearance" && <PrefAppearance />}
                             {pref === "language" && <PrefLanguage />}
                         </div>

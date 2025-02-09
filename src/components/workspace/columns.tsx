@@ -1,7 +1,7 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { WorkspaceType } from "@/dummy-data/workspaces"
+import { WorkspaceType } from "@/types/workspaces"
 
 import { Button } from "@/components/ui/button"
 import {  ArrowUpDown } from "lucide-react"

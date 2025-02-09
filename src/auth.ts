@@ -1,17 +1,18 @@
 import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 import Google from "next-auth/providers/google"
+import NeonAdapter from "@auth/pg-adapter"
+import { Pool } from "@neondatabase/serverless"
 
- 
-export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [
-    GitHub,
-    Google,
-  ],
+export const { handlers, auth, signIn, signOut } = NextAuth({
+  pages: {
+    signIn: "/auth",
+  },
   callbacks: {
     authorized: async ({ auth }) => {
-      // Logged in users are authenticated, otherwise redirect to login page
       return !!auth
     },
   },
+  adapter: NeonAdapter(new Pool({ connectionString: process.env.DATABASE_URL })),
+  providers: [GitHub, Google],
 })
