@@ -20,7 +20,11 @@ import { Separator } from "../ui/separator"
 import { createCustomer } from "@/lib/actions/createCustomer";
 import { useState } from "react";
 
-export function AddCustomerCard() {
+interface AddCustomerCardProps {
+    onSuccess: () => void;
+}
+
+export function AddCustomerCard({ onSuccess }: AddCustomerCardProps) {
     const [customerName, setCustomerName] = useState("");
     const [customerCategory, setCustomerCategory] = useState("");
     const [customerType, setCustomerType] = useState("");
@@ -28,9 +32,16 @@ export function AddCustomerCard() {
     const [error, setError] = useState("");
 
     const handleAddCustomer = async () => {
+        const trimmedName = customerName.trim();
+        if (!trimmedName) {
+            setError("Customer name cannot be empty");
+            return;
+        }
+        
         try {
-            await createCustomer(customerName, customerCategory, customerType, customerNotes);
-            // Success - the dialog will close automatically because we wrapped the button with DialogClose
+            await createCustomer(trimmedName, customerCategory, customerType, customerNotes);
+            setError("");
+            onSuccess();
         } catch (err) {
             console.error(err);
             setError("Failed to add customer. Please try again.");
@@ -82,9 +93,7 @@ export function AddCustomerCard() {
                     <DialogClose asChild>
                         <Button variant="destructive">Cancel</Button>
                     </DialogClose>
-                    <DialogClose asChild>
-                        <Button onClick={handleAddCustomer}>Add</Button>
-                    </DialogClose>
+                    <Button onClick={handleAddCustomer}>Add</Button>
                 </div>
             </DialogContent>
         </div>

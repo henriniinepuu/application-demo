@@ -6,8 +6,7 @@ import { CustomerType } from "@/types/customers"
 import { getCustomers } from "@/lib/actions/getCustomers";
 import { useEffect, useState } from "react";
 import { AddCustomerCard } from "../customers/addCustomerCard";
-import { DialogTrigger } from "../ui/dialog";
-import { Dialog } from "../ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
 
 
@@ -18,8 +17,8 @@ interface CustomersCardProps {
 
 
 export function CustomersCard({ className }: CustomersCardProps) {
-
     const [customersData, setCustomersData] = useState<CustomerType[]>([]);
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
           getCustomers().then((data) => {
@@ -31,17 +30,19 @@ export function CustomersCard({ className }: CustomersCardProps) {
   return (
     <div className={className}>
       <div className="">
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-row items-center justify-between space-x-4 mb-4">
           <div className="font-bold text-2xl">This is a list of all customers</div>
-          <Dialog >
-            <DialogTrigger className="bg-primary hover:bg-primary/80" asChild>
-              <Button>
-                Add Customer
-              </Button>
-            </DialogTrigger>
-            <AddCustomerCard />
+          <div className="ml-auto">
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogTrigger asChild>
+                <Button>
+                  Add Customer
+                </Button>
+              </DialogTrigger>
+              <AddCustomerCard onSuccess={() => setOpen(false)} />
 
-          </Dialog>
+            </Dialog>
+          </div>
         </div>
 
         <div className="mt-4">
