@@ -2,7 +2,7 @@
 
 import { PanelLeftOpen, PanelLeftClose } from "lucide-react"
 
-import { SearchForm } from "@/app/test/search-form"
+import { SearchForm } from "@/components/workspaceid/search-form"
 
 import {
   Breadcrumb,

@@ -1,5 +1,5 @@
-import { AppSidebar } from "@/app/test/app-sidebar"
-import { SiteHeader } from "@/app/test/site-header"
+import { AppSidebar } from "@/components/workspaceid/sidebar/app-sidebar"
+import { SiteHeader } from "@/components/workspaceid/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
 export default function Page() {

@@ -2,9 +2,9 @@
 import { DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import PrefProfile from "@/components/preferences/prefProfile";
-import PrefLanguage from "@/components/preferences/prefLanguage";
-import PrefAppearance from "@/components/preferences/prefAppearance";
+import PrefProfile from "@/components/workspaceid/sidebar/preferences/prefProfile";
+import PrefLanguage from "@/components/workspaceid/sidebar/preferences/prefLanguage";
+import PrefAppearance from "@/components/workspaceid/sidebar/preferences/prefAppearance";
 
 
 export default function Preferences() {

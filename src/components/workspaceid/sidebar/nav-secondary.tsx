@@ -1,5 +1,5 @@
 import * as React from "react"
-import { type LucideIcon } from "lucide-react"
+import { Settings, type LucideIcon } from "lucide-react"
 
 import {
   SidebarGroup,
@@ -8,9 +8,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { usePathname, useRouter } from "next/navigation"
 
 export function NavSecondary({
-  items,
   ...props
 }: {
   items: {
@@ -19,20 +19,21 @@ export function NavSecondary({
     icon: LucideIcon
   }[]
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
+  const router = useRouter()
+  const pathname = usePathname()
+  const workspaceId = pathname.split('/')[1]
   return (
     <SidebarGroup {...props}>
       <SidebarGroupContent>
         <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
+            <SidebarMenuItem>
               <SidebarMenuButton asChild size="sm">
-                <a href={item.url}>
-                  <item.icon />
-                  <span>{item.title}</span>
-                </a>
+                <div className="flex items-center gap-2" onClick={() => router.push(`/${workspaceId}/settings`)}>
+                  <Settings />
+                  <span>Settings</span>
+                </div>
               </SidebarMenuButton>
             </SidebarMenuItem>
-          ))}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

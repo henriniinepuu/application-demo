@@ -17,8 +17,8 @@
 // import { getWorkspaceName } from "@/lib/actions/breadcrumb/getWorkspaceName";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { SidebarInset } from "@/components/ui/sidebar";
-import { AppSidebar } from "../test/app-sidebar";
-import { SiteHeader } from "../test/site-header";
+import { AppSidebar } from "../../components/workspaceid/sidebar/app-sidebar";
+import { SiteHeader } from "../../components/workspaceid/site-header";
 
 export default function WorkspaceIDLayout({
 
